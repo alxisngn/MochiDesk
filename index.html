@@ -4,356 +4,464 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mochi Desk | Chatbot và trang web cho doanh nghiệp</title>
-<meta name="description" content="Chatbot tự trả lời tin nhắn khách trên Facebook và Instagram, kèm trang web song ngữ cho doanh nghiệp. Làm việc online bằng tiếng Anh và tiếng Việt.">
-<meta name="theme-color" content="#0D2B3E">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230D2B3E'/%3E%3Cpath d='M8 10h16v9H15l-4 4v-4H8z' fill='%23FFCF3F'/%3E%3C/svg%3E">
+<meta name="description" content="Chatbot tự trả lời tin nhắn khách trên Facebook và Instagram, kèm trang web hai ngôn ngữ. Làm việc online bằng tiếng Anh và tiếng Việt.">
+<meta name="theme-color" content="#F2ECEC">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='10' fill='%231B1618'/%3E%3Cpath d='M8 10h16v9H15l-4 4v-4H8z' fill='%23CDF55A'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');</script>
 <style>
 :root{
-  --ink:#0D2B3E;
-  --muted:#3B5568;
-  --paper:#EDF2F6;
-  --white:#FFFFFF;
-  --yellow:#FFCF3F;
-  --teal:#0B7A75;
-  --line:#D3DCE4;
-  --danger:#B42318;
-  --on-ink:#B7C6D3;
-  --header-h:64px;
-  --ease:cubic-bezier(.2,.7,.2,1);
+  --bg:#F2ECEC;
+  --ink:#1B1618;
+  --muted:#5F5558;
+  --line:rgba(27,22,24,.12);
+  --rose:#FFC6D4;
+  --matcha:#CDF55A;
+  --paper:#FFFFFF;
+  --soft:#FBF8F8;
+  --ease:cubic-bezier(.22,.8,.2,1);
 }
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h) + 12px)}
-body{margin:0;font-family:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth;scroll-padding-top:100px;-webkit-text-size-adjust:100%}
+body{margin:0;font-family:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img,svg{max-width:100%}
 a{color:inherit}
-:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
+h1,h2,h3,p,ul{margin:0}
+ul{padding:0;list-style:none}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
 .wrap{width:min(1120px,100% - 40px);margin-inline:auto}
 
-.skip{position:absolute;left:12px;top:-60px;background:var(--ink);color:#fff;padding:10px 16px;border-radius:8px;z-index:50;transition:top .2s}
-.skip:focus{top:12px}
+/* ---------- Ambient background ---------- */
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.blob{position:absolute;width:min(640px,80vw);height:min(640px,80vw);will-change:transform}
+.blob i{display:block;width:100%;height:100%;border-radius:50%;filter:blur(90px);animation:drift 22s ease-in-out infinite alternate}
+.b1{left:-14%;top:-10%;transform:translate3d(calc(var(--px,0px) * -1),calc(var(--py,0px) * -1),0)}
+.b1 i{background:var(--rose);opacity:.85}
+.b2{right:-16%;top:4%;transform:translate3d(calc(var(--px,0px) * .8),calc(var(--py,0px) * .8),0)}
+.b2 i{background:var(--matcha);opacity:.7;animation-duration:28s;animation-direction:alternate-reverse}
+@keyframes drift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(6%,8%,0) scale(1.12)}}
 
-/* Header */
-.site-header{position:sticky;top:0;z-index:20;height:var(--header-h);background:rgba(237,242,246,.9);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px)}
-.bar{height:100%;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.logo{font-weight:800;font-size:1.25rem;letter-spacing:-.02em;text-decoration:none}
-.nav{display:flex;align-items:center;gap:28px}
-.nav-links{display:flex;gap:24px}
-.nav-links a{text-decoration:none;font-weight:500;font-size:.95rem;color:var(--muted);transition:color .2s}
-.nav-links a:hover{color:var(--ink)}
-.lang{display:inline-flex;border:2px solid var(--ink);border-radius:999px;overflow:hidden}
-.lang button{font-family:inherit;font-weight:700;font-size:.8rem;border:0;background:transparent;color:var(--ink);padding:6px 12px;min-height:34px;cursor:pointer;transition:background .2s,color .2s}
+/* ---------- Load sequence ---------- */
+.pre{transition:opacity .9s var(--ease),transform 1.1s var(--ease)}
+.js .pre{opacity:0;transform:translateY(18px)}
+.go .pre{opacity:1;transform:none;transition-delay:var(--t,0s)}
+.js .bar.pre{transform:translate(-50%,-22px)}
+.go .bar.pre{transform:translate(-50%,0)}
+.js .win.pre{transform:translateY(44px) scale(.985)}
+.go .win.pre{opacity:1;transform:none}
+.w{display:inline-block;transition:opacity .8s var(--ease),transform 1s var(--ease);transition-delay:calc(var(--i) * 70ms + var(--d,0ms) + 200ms)}
+.js h1:not(.play) .w{opacity:0;transform:translateY(.55em)}
+h1.reset .w{transition:none}
+
+/* ---------- Header ---------- */
+.skip{position:absolute;left:12px;top:-64px;z-index:60;background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;text-decoration:none;transition:top .2s}
+.skip:focus{top:12px}
+.bar{position:fixed;top:14px;left:50%;z-index:40;width:min(1120px,calc(100% - 24px));height:62px;padding:0 10px 0 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-radius:999px;background:rgba(255,255,255,.58);border:1px solid rgba(27,22,24,.1);-webkit-backdrop-filter:blur(16px) saturate(1.3);backdrop-filter:blur(16px) saturate(1.3);transform:translateX(-50%);transition:width .6s var(--ease),background .5s,box-shadow .5s,opacity .9s var(--ease),transform 1.1s var(--ease)}
+.bar.scrolled{width:min(860px,calc(100% - 24px));background:rgba(255,255,255,.8);box-shadow:0 20px 44px -24px rgba(27,22,24,.4)}
+.logo{display:inline-flex;align-items:baseline;white-space:nowrap;font-size:1.25rem;letter-spacing:-.02em;text-decoration:none}
+.logo b{font-weight:700}
+.logo .desk{display:inline-block;max-width:3.4em;overflow:hidden;font-weight:300;transition:max-width .6s var(--ease),opacity .4s}
+.bar.scrolled .desk{max-width:0;opacity:0}
+.us{font-style:normal;font-weight:300;animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.links{position:relative;display:flex}
+.links a{position:relative;z-index:1;padding:11px 18px;border-radius:999px;text-decoration:none;font-weight:500;font-size:.95rem}
+.pill{position:absolute;left:0;top:50%;width:0;height:40px;margin-top:-20px;border-radius:999px;background:var(--matcha);opacity:0;transition:transform .5s var(--ease),width .5s var(--ease),opacity .3s}
+.tools{display:flex;align-items:center;gap:10px}
+.lang{display:flex;padding:3px;border-radius:999px;background:rgba(27,22,24,.07)}
+.lang button{min-height:32px;padding:0 12px;border:0;border-radius:999px;background:transparent;color:var(--ink);font-family:inherit;font-weight:600;font-size:.8rem;cursor:pointer;transition:background .3s,color .3s}
 .lang button[aria-pressed="true"]{background:var(--ink);color:#fff}
 
-/* Buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border-radius:12px;font-family:inherit;font-weight:600;font-size:1rem;text-decoration:none;border:0;cursor:pointer;transition:background .2s,color .2s,transform .2s}
-.btn-primary{background:var(--ink);color:#fff}
-.btn-primary:hover{background:var(--yellow);color:var(--ink)}
-.btn-primary:active{transform:translateY(1px)}
-.btn-primary:disabled{opacity:.6;cursor:progress}
-.btn-text{font-weight:600;text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:2px}
-.btn-text:hover{text-decoration-color:var(--yellow)}
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;gap:14px;min-height:52px;padding:6px 6px 6px 24px;border:0;border-radius:999px;background:var(--matcha);color:var(--ink);font-family:inherit;font-weight:600;font-size:1rem;text-decoration:none;cursor:pointer;transition:box-shadow .4s var(--ease),transform .4s var(--ease)}
+.btn .go-ic{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--ink);transition:transform .5s var(--ease)}
+.btn svg{width:18px;height:18px;fill:none;stroke:var(--matcha);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.btn:hover{box-shadow:0 14px 30px -14px rgba(120,160,0,.9);transform:translateY(-1px)}
+.btn:hover .go-ic{transform:rotate(45deg)}
+.btn:disabled{opacity:.6;cursor:progress}
+.btn.sm{min-height:44px;padding:4px 4px 4px 18px;font-size:.9rem;gap:10px}
+.btn.sm .go-ic{width:34px;height:34px}
+.btn.sm svg{width:15px;height:15px}
+.link-quiet{font-weight:600;text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:2px;text-decoration-color:rgba(27,22,24,.3);transition:text-decoration-color .3s}
+.link-quiet:hover{text-decoration-color:var(--ink)}
 
-/* Hero */
-.hero{padding:clamp(40px,7vw,88px) 0 clamp(64px,8vw,112px)}
-.hero-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(32px,6vw,80px);align-items:center}
-h1{margin:0 0 20px;font-size:clamp(2.25rem,5.4vw,4.25rem);font-weight:800;line-height:1.06;letter-spacing:-.03em;text-wrap:balance}
-.lead{margin:0 0 32px;max-width:34em;font-size:1.125rem;color:var(--muted)}
-.cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px}
+/* ---------- Hero ---------- */
+.hero{padding:clamp(128px,17vw,176px) 0 clamp(40px,6vw,72px);text-align:center}
+.badge{display:inline-flex;align-items:center;gap:10px;padding:9px 18px 9px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.75);text-decoration:none;font-size:.9rem;font-weight:500}
+.dot{position:relative;width:9px;height:9px;border-radius:50%;background:#7FB800}
+.dot::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid #7FB800;opacity:0;animation:ping 2.4s ease-out infinite}
+@keyframes ping{0%{transform:scale(.5);opacity:.8}100%{transform:scale(1.5);opacity:0}}
+h1{margin:30px auto 0;max-width:15em;font-size:clamp(2.1rem,7.4vw,5.4rem);line-height:1.1;letter-spacing:-.035em;font-weight:300;text-wrap:balance}
+h1 .l{display:block}
+h1 .l2{font-weight:600;--d:260ms}
+.ask{display:inline-flex;align-items:center;gap:12px;margin-top:34px;padding:8px 26px 8px 8px;border-radius:999px;background:var(--rose);min-width:min(23em,90vw);text-align:left}
+.ask svg{flex:none;width:40px;height:40px}
+.ask .typed{font-size:clamp(1rem,2.6vw,1.3rem);font-weight:500;min-height:1.6em;white-space:nowrap;overflow:hidden}
+.caret{flex:none;width:2px;height:1.3em;margin-left:-8px;background:var(--ink);animation:blink 1s steps(1) infinite}
+.sub{text-wrap:balance;max-width:36em;margin:28px auto 0;font-size:clamp(1.02rem,2.1vw,1.2rem);color:var(--muted)}
+.cta-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px 28px;margin-top:34px}
 
-/* Chat demo */
-.phone{width:min(100%,380px);margin-inline:auto;background:var(--white);border:2px solid var(--ink);border-radius:28px;box-shadow:10px 10px 0 var(--yellow);overflow:hidden;display:flex;flex-direction:column;height:560px;height:min(560px,80svh)}
-.chat-head{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:2px solid var(--ink)}
-.avatar{flex:none;width:40px;height:40px;border-radius:50%;background:var(--ink);color:var(--yellow);display:grid;place-items:center;font-weight:800}
-.shop{font-weight:700;line-height:1.2}
-.tag{margin-left:auto;font-size:.75rem;font-weight:600;background:var(--yellow);padding:2px 10px;border-radius:999px;white-space:nowrap}
-.chat-log{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:var(--paper);scroll-behavior:smooth}
-.msg{max-width:84%;padding:10px 14px;border-radius:18px;font-size:.95rem;line-height:1.45;white-space:pre-line;animation:pop .22s var(--ease)}
-.msg.bot{align-self:flex-start;background:var(--white);border-bottom-left-radius:6px}
-.msg.user{align-self:flex-end;background:var(--yellow);border-bottom-right-radius:6px;font-weight:500}
-.note{align-self:center;font-size:.8rem;color:var(--muted);text-align:center}
-.typing{align-self:flex-start;display:flex;gap:4px;padding:14px 16px;background:var(--white);border-radius:18px;border-bottom-left-radius:6px}
-.typing span{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1s infinite ease-in-out}
-.typing span:nth-child(2){animation-delay:.15s}
-.typing span:nth-child(3){animation-delay:.3s}
-.chips{display:flex;flex-wrap:wrap;align-content:flex-start;gap:8px;padding:12px 16px 16px;min-height:138px;border-top:2px solid var(--ink);background:var(--white)}
-.chip{min-height:44px;padding:0 14px;border-radius:999px;border:2px solid var(--ink);background:var(--white);color:var(--ink);font-family:inherit;font-weight:600;font-size:.9rem;cursor:pointer;transition:background .2s,color .2s}
-.chip:hover{background:var(--ink);color:#fff}
-@keyframes pop{from{opacity:0;transform:translateY(6px) scale(.98)}to{opacity:1;transform:none}}
-@keyframes blink{0%,80%,100%{opacity:.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+/* ---------- Chat demo ---------- */
+.demo-sec{padding:clamp(16px,3vw,32px) 0 clamp(56px,8vw,100px)}
+.win{max-width:1000px;margin:0 auto;overflow:hidden;border:1px solid var(--line);border-radius:36px;background:var(--paper);box-shadow:0 40px 90px -40px rgba(27,22,24,.35)}
+.win-head{display:flex;align-items:center;gap:16px;padding:16px 24px;border-bottom:1px solid var(--line);background:var(--soft)}
+.dots{display:flex;gap:7px}
+.dots i{width:11px;height:11px;border-radius:50%;background:#DDD5D5}
+.dots i:first-child{background:var(--matcha)}
+.win-title{font-weight:600;font-size:.95rem}
+.win-tag{margin-left:auto;padding:3px 12px;border-radius:999px;background:var(--rose);font-size:.78rem;font-weight:600;white-space:nowrap}
+.log{display:flex;flex-direction:column;gap:14px;height:clamp(340px,58svh,470px);padding:28px clamp(16px,4vw,38px);overflow-y:auto;overscroll-behavior:contain}
+.row{display:flex;align-items:flex-end;gap:12px;animation:pop .5s var(--ease)}
+.row.bot{flex-direction:row-reverse}
+.row svg{flex:none;width:36px;height:36px}
+.bub{max-width:min(72%,520px);padding:13px 18px;font-size:1rem;line-height:1.5;white-space:pre-line}
+.row.user .bub{border-radius:22px 22px 22px 8px;background:var(--rose)}
+.row.bot .bub{border-radius:22px 22px 8px 22px;background:var(--ink);color:#fff}
+.row.typing .bub{display:flex;gap:5px;padding:17px 18px}
+.row.typing .bub i{width:7px;height:7px;border-radius:50%;background:#fff;animation:bounce 1s infinite ease-in-out}
+.row.typing .bub i:nth-child(2){animation-delay:.15s}
+.row.typing .bub i:nth-child(3){animation-delay:.3s}
+.note{align-self:center;font-size:.85rem;color:var(--muted);text-align:center}
+.chips{display:flex;flex-wrap:wrap;align-content:flex-start;gap:10px;min-height:96px;padding:18px clamp(16px,4vw,38px) 22px;border-top:1px solid var(--line);background:var(--soft)}
+.chip{min-height:44px;padding:0 20px;border:1.5px solid var(--ink);border-radius:999px;background:transparent;color:var(--ink);font-family:inherit;font-weight:600;font-size:.92rem;cursor:pointer;animation:pop .5s var(--ease) both;animation-delay:calc(var(--i) * 70ms);transition:background .25s,transform .25s var(--ease)}
+.chip:hover{background:var(--matcha);transform:translateY(-2px)}
+.hint{max-width:34em;margin:24px auto 0;text-align:center;color:var(--muted);font-size:.95rem}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes bounce{0%,80%,100%{opacity:.35;transform:translateY(0)}40%{opacity:1;transform:translateY(-4px)}}
 
-.demo{min-width:0}
-.demo-hint{width:min(100%,380px);margin:24px auto 0;text-align:center;color:var(--muted);font-size:.9rem}
+/* ---------- Marquee ---------- */
+.marquee{overflow:hidden;padding:8px 0 clamp(48px,7vw,88px);-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.track{display:flex;width:max-content;animation:slide 44s linear infinite}
+.marquee:hover .track{animation-play-state:paused}
+.group{display:flex;align-items:center}
+.group span{padding:0 clamp(18px,3vw,34px);font-size:clamp(1.5rem,3.6vw,2.6rem);font-weight:300;letter-spacing:-.02em;white-space:nowrap}
+.group i{width:12px;height:12px;border-radius:50%;background:var(--rose)}
+.group i:nth-of-type(even){background:var(--matcha)}
+@keyframes slide{to{transform:translateX(-50%)}}
 
-/* Bands */
-.band{padding:clamp(56px,8vw,104px) 0}
-.band-white{background:var(--white)}
-.band-ink{background:var(--ink);color:#fff;padding-bottom:clamp(48px,6vw,72px)}
-h2{margin:0 0 12px;font-size:clamp(1.75rem,3.6vw,2.75rem);font-weight:800;line-height:1.12;letter-spacing:-.025em;text-wrap:balance}
-.section-sub{margin:0 0 clamp(28px,5vw,48px);max-width:40em;color:var(--muted)}
-.band-ink .section-sub{color:var(--on-ink)}
+/* ---------- Sections ---------- */
+.sec{padding:clamp(56px,8vw,112px) 0}
+.head{max-width:40rem;margin-bottom:clamp(28px,5vw,56px)}
+h2{font-size:clamp(1.9rem,4.4vw,3.3rem);font-weight:300;line-height:1.12;letter-spacing:-.03em;text-wrap:balance}
+.head p{margin-top:14px;color:var(--muted);font-size:1.05rem}
 
 /* Services */
-.svc-list{border-bottom:2px solid var(--ink)}
-.svc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:16px 48px;padding:32px 0;border-top:2px solid var(--ink)}
-.svc h3{margin:0;font-size:1.5rem;font-weight:700;letter-spacing:-.015em;line-height:1.25}
-.svc p{margin:0;color:var(--muted)}
-.svc ul{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:8px}
-.svc li{position:relative;padding-left:22px}
-.svc li::before{content:"";position:absolute;left:0;top:.6em;width:10px;height:10px;border-radius:3px;background:var(--yellow);border:2px solid var(--ink)}
+.grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:20px}
+.card{--mx:50%;--my:50%;position:relative;overflow:hidden;padding:clamp(24px,3.2vw,36px);border:1px solid var(--line);border-radius:28px;background:var(--paper)}
+.card::before{content:"";position:absolute;inset:0;background:radial-gradient(280px circle at var(--mx) var(--my),rgba(205,245,90,.5),transparent 70%);opacity:0;transition:opacity .4s}
+.card:hover::before{opacity:1}
+.card>*{position:relative}
+.card.big{grid-row:span 2;display:flex;flex-direction:column;border-radius:36px}
+.ic{display:grid;place-items:center;width:52px;height:52px;margin-bottom:22px;border-radius:16px;background:#F1EAEA}
+.ic svg{width:26px;height:26px;fill:none;stroke:var(--ink);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.card h3{font-size:1.3rem;font-weight:600;line-height:1.3;letter-spacing:-.015em}
+.mini{margin-top:auto;padding:28px 0 22px;display:flex;flex-direction:column;gap:8px}.mb{max-width:80%;padding:10px 16px;border-radius:18px;font-size:.95rem;line-height:1.4}.mb.u{align-self:flex-end;background:var(--rose)}.mb.b{align-self:flex-start;background:var(--soft);border:1px solid var(--line)}
+.btn.sm{white-space:nowrap}@media(max-width:380px){.btn.sm{padding-left:12px}.btn.sm .go-ic{display:none}}
+.card.big h3{font-size:clamp(1.6rem,3vw,2.1rem);font-weight:500;letter-spacing:-.025em}
+.card p{margin-top:12px;color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:26px}
+.tags li{padding:6px 14px;border:1px solid var(--line);border-radius:999px;background:var(--soft);font-size:.85rem;font-weight:500}
 
 /* Process */
-.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
-.steps li{position:relative}
-.step-num{width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--yellow);display:grid;place-items:center;font-weight:800;margin-bottom:16px;position:relative;z-index:1}
-.steps li:not(:last-child)::after{content:"";position:absolute;top:21px;left:44px;right:-24px;height:2px;background:var(--ink)}
-.steps h3{margin:0 0 6px;font-size:1.15rem;font-weight:700}
-.steps p{margin:0;color:var(--muted);font-size:.95rem}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,4vw,56px)}
+.bar-line{display:block;position:relative;height:3px;margin-bottom:22px;border-radius:3px;background:var(--line);overflow:hidden}
+.bar-line::after{content:"";position:absolute;inset:0;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform 1.2s var(--ease) calc(var(--i) * .3s)}
+.steps.in .bar-line::after{transform:scaleX(1)}
+.num{font-size:2.6rem;font-weight:300;line-height:1;letter-spacing:-.04em;color:var(--muted)}
+.step h3{margin-top:14px;font-size:1.3rem;font-weight:600;letter-spacing:-.015em}
+.step p{margin-top:10px;color:var(--muted)}
 
 /* Pilot */
-.first{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:32px;align-items:center;background:var(--paper);border-radius:24px;padding:clamp(24px,5vw,56px)}
-.first h2{font-size:clamp(1.5rem,3vw,2.25rem)}
-.first p{margin:0;color:var(--muted);max-width:38em}
-.first .btn{justify-self:start}
+.pilot{position:relative;overflow:hidden;margin:clamp(24px,4vw,56px) 0;padding:clamp(48px,8vw,96px) clamp(24px,6vw,72px);border-radius:clamp(32px,5vw,48px);background:var(--ink);color:#fff;text-align:center}
+.pilot::before,.pilot::after{content:"";position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;animation:breathe 7s ease-in-out infinite alternate}
+.pilot::before{right:-10%;bottom:-40%;width:min(520px,70vw);height:min(520px,70vw);background:rgba(205,245,90,.45)}
+.pilot::after{left:-12%;top:-45%;width:min(440px,60vw);height:min(440px,60vw);background:rgba(255,198,212,.28);animation-delay:-3s}
+@keyframes breathe{from{opacity:.55;transform:scale(1)}to{opacity:1;transform:scale(1.15)}}
+.pilot>*{position:relative}
+.pilot h2{max-width:14em;margin-inline:auto}
+.pilot p{max-width:36em;margin:22px auto 0;color:#D8CFD1}
+.pilot .btn{margin-top:34px}
+.pilot .fine{margin-top:18px;font-size:.88rem;color:#B9AFB2}
+.pilot :focus-visible{outline-color:var(--matcha)}
 
 /* FAQ */
-.faq{border-bottom:2px solid var(--ink)}
-.qa{border-top:2px solid var(--ink)}
-.qa button{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 0;border:0;background:transparent;font-family:inherit;font-weight:600;font-size:1.05rem;text-align:left;color:var(--ink);cursor:pointer}
-.qa button::after{content:"+";flex:none;font-size:1.6rem;line-height:1;font-weight:500;transition:transform .25s var(--ease)}
-.qa button[aria-expanded="true"]::after{transform:rotate(45deg)}
-.panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s var(--ease)}
+.faq-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(28px,6vw,80px);align-items:start}
+.faq-grid .head{position:sticky;top:110px;margin-bottom:0}
+.qa{margin-bottom:12px;border:1px solid var(--line);border-radius:24px;background:var(--paper);transition:border-color .3s}
+.qa:hover{border-color:rgba(27,22,24,.32)}
+.qa h3{font-size:inherit;font-weight:inherit}
+.qa button{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;padding:22px 26px;border:0;border-radius:24px;background:transparent;color:var(--ink);font-family:inherit;font-weight:500;font-size:1.08rem;text-align:left;cursor:pointer}
+.pm{position:relative;flex:none;width:22px;height:22px}
+.pm::before,.pm::after{content:"";position:absolute;left:50%;top:50%;width:14px;height:2px;border-radius:2px;background:var(--ink);transform:translate(-50%,-50%);transition:transform .4s var(--ease)}
+.pm::after{transform:translate(-50%,-50%) rotate(90deg)}
+button[aria-expanded="true"] .pm::after{transform:translate(-50%,-50%) rotate(0)}
+.panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s var(--ease)}
 .panel.open{grid-template-rows:1fr}
 .panel>div{min-height:0;overflow:hidden}
-.panel p{margin:0;padding:0 0 20px;color:var(--muted);max-width:44em}
+.panel p{padding:0 26px 24px;color:var(--muted)}
 
 /* Contact */
-.contact-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,72px);align-items:start}
-.contact-icons{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:12px}
-.icon-link{--bg:var(--white);display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--bg);color:var(--ink);transition:background .2s,transform .2s}
-.icon-link svg{width:26px;height:26px;display:block}
-.icon-link:hover{background:var(--yellow);transform:translateY(-2px)}
-.icon-link:hover svg{--bg:var(--yellow)}
-.band-ink :focus-visible{outline-color:var(--yellow)}
-.form-card{background:var(--white);color:var(--ink);border-radius:20px;padding:clamp(20px,4vw,32px)}
-.form-card :focus-visible{outline-color:var(--teal)}
+.contact-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,6vw,80px);align-items:start}
+.contact-grid .head{margin-bottom:28px}
+.reach{margin-bottom:14px;color:var(--muted);font-size:.95rem}
+.contact-icons{display:flex;flex-wrap:wrap;gap:12px}
+.icon-link{--bg:#fff;display:grid;place-items:center;width:54px;height:54px;border:1px solid var(--line);border-radius:50%;background:var(--bg);color:var(--ink);transition:background .3s,transform .4s var(--ease)}
+.icon-link svg{display:block;width:26px;height:26px}
+.icon-link:hover{--bg:var(--matcha);transform:translateY(-3px)}
+.form-card{padding:clamp(22px,4vw,36px);border:1px solid var(--line);border-radius:32px;background:var(--paper)}
 .field{margin-bottom:16px}
-.field label{display:block;margin-bottom:6px;font-weight:600;font-size:.9rem}
-.field input,.field textarea{width:100%;min-height:48px;padding:12px 14px;border:2px solid var(--line);border-radius:10px;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--white);transition:border-color .2s}
-.field input:hover,.field textarea:hover{border-color:var(--muted)}
-.field input:focus,.field textarea:focus{border-color:var(--ink)}
-.field textarea{min-height:110px;resize:vertical}
+.field label{display:block;margin-bottom:7px;font-weight:600;font-size:.9rem}
+.field input,.field textarea{width:100%;min-height:52px;padding:13px 18px;border:1.5px solid var(--line);border-radius:16px;background:var(--soft);color:var(--ink);font-family:inherit;font-size:1rem;transition:border-color .25s,background .25s}
+.field input:hover,.field textarea:hover{border-color:rgba(27,22,24,.35)}
+.field input:focus,.field textarea:focus{border-color:var(--ink);background:#fff}
+.field textarea{min-height:120px;resize:vertical}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-.form-card .btn{width:100%}
-.status{min-height:1.6em;margin:12px 0 0;font-size:.95rem;font-weight:500}
-.status.ok{color:var(--teal)}
-.status.error{color:var(--danger)}
+.status{min-height:1.6em;margin-top:14px;font-size:.95rem;font-weight:500}
+.status.ok{color:#2E6B1F}
+.status.error{color:#B42318}
 
 /* Footer */
-.site-footer{background:var(--ink);color:var(--on-ink);padding:0 0 32px;font-size:.9rem}
-.site-footer .wrap{padding-top:24px;border-top:1px solid rgba(255,255,255,.18)}
+.foot{margin-top:clamp(40px,6vw,80px);padding:clamp(40px,6vw,72px) 0 28px;border-radius:44px 44px 0 0;background:#E6DEDE}
+.foot-mark{font-size:clamp(2.6rem,11vw,8rem);font-weight:300;line-height:1;letter-spacing:-.05em}
+.foot-mark b{font-weight:700}
+.foot-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;margin-top:28px;padding-top:20px;border-top:1px solid rgba(27,22,24,.14);color:var(--muted);font-size:.92rem}
 
-/* Responsive */
+/* ---------- Responsive ---------- */
 @media (max-width:900px){
-  .hero-grid{grid-template-columns:minmax(0,1fr)}
-  .contact-grid{grid-template-columns:minmax(0,1fr)}
-  .first{grid-template-columns:minmax(0,1fr)}
-  .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .steps li::after{display:none!important}
-}
-@media (max-width:720px){
-  .nav-links{display:none}
-  .svc{grid-template-columns:minmax(0,1fr);gap:12px}
-}
-@media (max-width:520px){
+  .grid,.faq-grid,.contact-grid{grid-template-columns:minmax(0,1fr)}
+  .card.big{grid-row:auto}
+  .faq-grid .head{position:static;margin-bottom:28px}
   .steps{grid-template-columns:minmax(0,1fr)}
-  .phone{box-shadow:8px 8px 0 var(--yellow)}
 }
+@media (max-width:820px){
+  .links{display:none}
+}
+@media (max-width:480px){
+  .bar{padding-left:18px}
+  .tools{gap:6px}
+  .bub{max-width:80%}
+  .btn.sm{padding-left:14px}
+}
+
+/* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
-  html,.chat-log{scroll-behavior:auto}
+  html,.log{scroll-behavior:auto}
+  .js .pre,.js h1:not(.play) .w{opacity:1;transform:none}
+  .js .bar.pre{transform:translateX(-50%)}
+  .bar-line::after{transform:scaleX(1)}
+  .marquee{overflow-x:auto}
+  .caret{display:none}
 }
 </style>
 </head>
 <body>
-<a class="skip" href="#main" data-vi="Bỏ qua điều hướng" data-en="Skip to content">Bỏ qua điều hướng</a>
+<div class="bg" aria-hidden="true">
+  <div class="blob b1"><i></i></div>
+  <div class="blob b2"><i></i></div>
+</div>
 
-<header class="site-header">
-  <div class="wrap bar">
-    <a class="logo" href="#top">Mochi Desk</a>
-    <nav class="nav" aria-label="Main">
-      <div class="nav-links">
-        <a href="#services" data-vi="Dịch vụ" data-en="Services">Dịch vụ</a>
-        <a href="#process" data-vi="Quy trình" data-en="Process">Quy trình</a>
-        <a href="#faq" data-vi="Câu hỏi" data-en="FAQ">Câu hỏi</a>
-        <a href="#contact" data-vi="Liên hệ" data-en="Contact">Liên hệ</a>
-      </div>
-      <div class="lang" role="group" aria-label="Language / Ngôn ngữ">
-        <button type="button" data-lang="vi" aria-pressed="true">VI</button>
-        <button type="button" data-lang="en" aria-pressed="false">EN</button>
-      </div>
-    </nav>
+<a class="skip" href="#main" data-en="Skip to content">Bỏ qua điều hướng</a>
+
+<header class="bar pre" id="bar" style="--t:0s">
+  <a class="logo" href="#top" aria-label="Mochi Desk"><b>Mochi</b><span class="desk">&nbsp;Desk</span><i class="us">_</i></a>
+  <nav class="links" id="links" aria-label="Main">
+    <span class="pill" id="pill" aria-hidden="true"></span>
+    <a href="#services" data-en="Services">Dịch vụ</a>
+    <a href="#process" data-en="How it works">Cách làm</a>
+    <a href="#faq" data-en="FAQ">Câu hỏi</a>
+    <a href="#contact" data-en="Contact">Liên hệ</a>
+  </nav>
+  <div class="tools">
+    <div class="lang" role="group" aria-label="Language / Ngôn ngữ">
+      <button type="button" data-lang="vi" aria-pressed="true">VI</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <a class="btn sm" href="#contact"><span data-en="Message me">Nhắn mình</span><span class="go-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
   </div>
 </header>
 
 <main id="main">
   <section class="hero" id="top">
-    <div class="wrap hero-grid">
-      <div class="hero-copy">
-        <h1 data-vi="Trả lời khách 24/7, không bỏ lỡ đơn nào" data-en="Reply to customers 24/7. Never miss an order.">Trả lời khách 24/7, không bỏ lỡ đơn nào</h1>
-        <p class="lead" data-vi="Bot tự trả lời tin nhắn của khách trên Facebook và Instagram, kể cả ngoài giờ làm việc."
-           data-en="A bot that answers your customers' messages on Facebook and Instagram, even outside work hours.">Bot tự trả lời tin nhắn của khách trên Facebook và Instagram, kể cả ngoài giờ làm việc.</p>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="#contact" data-vi="Nhận bản demo miễn phí" data-en="Get a free demo">Nhận bản demo miễn phí</a>
-          <a class="btn-text" href="#services" data-vi="Xem dịch vụ" data-en="See services">Xem dịch vụ</a>
-        </div>
+    <div class="wrap">
+      <a class="badge pre" href="#contact" style="--t:.25s"><i class="dot"></i><span data-en="3 trial spots open">Đang mở 3 suất làm thử</span></a>
+      <h1>
+        <span class="l l1 split" data-en="Customers message any time.">Khách nhắn lúc nào,</span>
+        <span class="l l2 split" data-en="You reply on time.">bạn cũng trả lời kịp.</span>
+      </h1>
+      <div class="ask pre" aria-hidden="true" style="--t:1s">
+        <svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="18" fill="#fff"/><circle cx="18" cy="14" r="5.2" fill="#1B1618"/><path d="M7.5 30c1.6-6 5.8-8.6 10.5-8.6S27 24 28.5 30z" fill="#1B1618"/></svg>
+        <span class="typed" id="typed"></span><i class="caret"></i>
       </div>
+      <p class="sub pre" style="--t:1.15s" data-en="Mochi Desk builds chatbots for Facebook and Instagram that answer the questions customers ask most, even outside your working hours. Anything tricky goes back to you.">Mochi Desk dựng chatbot cho Facebook và Instagram, trả lời giúp bạn những câu khách hay hỏi, kể cả ngoài giờ. Câu nào khó thì chuyển lại cho bạn.</p>
+      <div class="cta-row pre" style="--t:1.3s">
+        <a class="btn" href="#demo"><span data-en="Try the bot">Thử bot ngay</span><span class="go-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+        <a class="link-quiet" href="#services" data-en="See services">Xem dịch vụ</a>
+      </div>
+    </div>
+  </section>
 
-      <div class="demo">
-      <div class="phone" role="group" aria-label="Chatbot demo">
-        <div class="chat-head">
-          <div class="avatar" aria-hidden="true">L</div>
-          <div class="shop" id="shopName">Little Bean Café</div>
-          <div class="tag" id="demoTag">Bản demo</div>
+  <section class="demo-sec" id="demo">
+    <div class="wrap">
+      <div class="win pre" id="win" style="--t:1.5s">
+        <div class="win-head">
+          <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="win-title" id="shopName">Little Bean Café</div>
+          <div class="win-tag" id="demoTag">Bản demo</div>
         </div>
-        <div class="chat-log" id="chatLog" role="log" aria-live="polite" aria-label="Chat"></div>
+        <div class="log" id="chatLog" role="log" aria-live="polite" aria-label="Chat"></div>
         <div class="chips" id="chips"></div>
       </div>
-      <p class="demo-hint" data-vi="Thử bấm vào các nút trong khung chat: đây là cách bot trả lời khách của bạn." data-en="Try tapping the buttons in the chat: this is how the bot answers your customers.">Thử bấm vào các nút trong khung chat: đây là cách bot trả lời khách của bạn.</p>
+      <p class="hint" data-en="Tap the buttons in the chat. This is how your bot would answer your customers.">Bấm thử các nút trong khung chat nhé. Bot của bạn cũng sẽ trả lời khách như vậy.</p>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="track">
+      <div class="group"><span>Messenger</span><i></i><span>Instagram</span><i></i><span>Website</span><i></i><span>Google Sheets</span><i></i><span>Email</span><i></i><span>Tiếng Việt</span><i></i><span>English</span><i></i></div>
+      <div class="group"><span>Messenger</span><i></i><span>Instagram</span><i></i><span>Website</span><i></i><span>Google Sheets</span><i></i><span>Email</span><i></i><span>Tiếng Việt</span><i></i><span>English</span><i></i></div>
+    </div>
+  </div>
+
+  <section class="sec" id="services">
+    <div class="wrap">
+      <div class="head">
+        <h2 data-en="What I do for you">Mình làm gì cho bạn</h2>
+        <p data-en="Three simple things, done within days.">Ba thứ đơn giản, làm xong trong vài ngày.</p>
+      </div>
+      <div class="grid">
+        <article class="card big">
+          <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-6l-4 3.5V17H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg></span>
+          <h3 data-en="Chatbot that answers customers">Chatbot trả lời khách</h3>
+          <p data-en="Answers the questions customers ask most, like prices, shipping and opening hours. Anything tricky goes back to you.">Trả lời giúp bạn những câu khách hay hỏi như giá, phí ship, giờ mở cửa. Câu nào khó thì chuyển lại cho bạn.</p>
+          <div class="mini" aria-hidden="true"><span class="mb u" data-en="Is it open on Sunday?">Chủ nhật quán có mở không?</span><span class="mb b" data-en="Yes! We're open 8am to 9pm.">Có nha! Quán mở từ 8h đến 21h.</span></div>
+          <ul class="tags"><li>Messenger</li><li>Instagram</li><li>Website</li></ul>
+        </article>
+        <article class="card">
+          <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3.2 3 3.2 15 0 18M12 3c-3.2 3-3.2 15 0 18"/></svg></span>
+          <h3 data-en="Two-language web page">Trang web hai ngôn ngữ</h3>
+          <p data-en="One clean page that looks good on phones, with a language switch. When a customer leaves their details, you get an email right away.">Một trang gọn, xem mượt trên điện thoại, có nút đổi ngôn ngữ. Khách để lại thông tin là bạn nhận email ngay.</p>
+        </article>
+        <article class="card">
+          <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 10h16M4 15h16M10 4v16"/></svg></span>
+          <h3 data-en="Orders logged in a spreadsheet">Tự ghi đơn vào bảng tính</h3>
+          <p data-en="Orders and customer details land in your own Google Sheet, with a weekly report sent to your email.">Đơn hàng và thông tin khách tự vào Google Sheets của bạn, mỗi tuần có báo cáo gửi về email.</p>
+        </article>
       </div>
     </div>
   </section>
 
-  <section class="band band-white" id="services">
+  <section class="sec" id="process" style="padding-top:0">
     <div class="wrap">
-      <h2 data-vi="Dịch vụ" data-en="Services">Dịch vụ</h2>
-      <p class="section-sub" data-vi="Phạm vi rõ ràng, giao trong vài ngày." data-en="Clear scope, delivered in days.">Phạm vi rõ ràng, giao trong vài ngày.</p>
-      <div class="svc-list">
-        <div class="svc">
-          <h3 data-vi="Chatbot trả lời tự động" data-en="Auto-reply chatbot">Chatbot trả lời tự động</h3>
-          <p data-vi="Trả lời những câu khách hay hỏi như giá, ship, giờ mở cửa. Gặp câu khó thì chuyển cho bạn." data-en="Answers common questions like prices, shipping and opening hours. Passes the tricky ones to you.">Trả lời những câu khách hay hỏi như giá, ship, giờ mở cửa. Gặp câu khó thì chuyển cho bạn.</p>
-        </div>
-        <div class="svc">
-          <h3 data-vi="Trang web song ngữ" data-en="Bilingual web page">Trang web song ngữ</h3>
-          <p data-vi="Một trang web gọn, xem tốt trên điện thoại, có nút đổi ngôn ngữ. Khách để lại thông tin là bạn nhận được email." data-en="One clean web page that looks good on phones, with a language switch. When a customer leaves their details, you get an email.">Một trang web gọn, xem tốt trên điện thoại, có nút đổi ngôn ngữ. Khách để lại thông tin là bạn nhận được email.</p>
-        </div>
-        <div class="svc">
-          <h3 data-vi="Ghi đơn tự động" data-en="Automatic order tracking">Ghi đơn tự động</h3>
-          <p data-vi="Đơn hàng và thông tin khách được ghi sẵn vào bảng tính, kèm báo cáo gửi về email mỗi tuần." data-en="Orders and customer details are saved to a spreadsheet automatically, with a weekly report sent to your email.">Đơn hàng và thông tin khách được ghi sẵn vào bảng tính, kèm báo cáo gửi về email mỗi tuần.</p>
-        </div>
+      <div class="head">
+        <h2 data-en="How I work">Cách mình làm việc</h2>
+        <p data-en="Three steps. You tell me, you approve.">Ba bước. Bạn chỉ cần kể và duyệt.</p>
       </div>
-    </div>
-  </section>
-
-  <section class="band" id="process">
-    <div class="wrap">
-      <h2 data-vi="Quy trình 4 bước" data-en="Four steps">Quy trình 4 bước</h2>
-      <p class="section-sub" data-vi="Bạn chỉ cần trả lời vài câu hỏi, còn lại mình lo." data-en="You answer a few questions, I handle the rest.">Bạn chỉ cần trả lời vài câu hỏi, còn lại mình lo.</p>
-      <ol class="steps">
-        <li>
-          <div class="step-num" aria-hidden="true">1</div>
-          <h3 data-vi="Khảo sát" data-en="Discover">Khảo sát</h3>
-          <p data-vi="Trò chuyện 15-20 phút để biết khách hay hỏi gì." data-en="A 15-20 minute chat to learn what customers ask.">Trò chuyện 15-20 phút để biết khách hay hỏi gì.</p>
-        </li>
-        <li>
-          <div class="step-num" aria-hidden="true">2</div>
-          <h3 data-vi="Lên kế hoạch" data-en="Plan">Lên kế hoạch</h3>
-          <p data-vi="Mình soạn câu trả lời, bạn duyệt." data-en="I draft the answers, you approve them.">Mình soạn câu trả lời, bạn duyệt.</p>
-        </li>
-        <li>
-          <div class="step-num" aria-hidden="true">3</div>
-          <h3 data-vi="Dựng và thử" data-en="Build and test">Dựng và thử</h3>
-          <p data-vi="Mình dựng bot và thử kỹ trước khi giao." data-en="I build the bot and test it before handover.">Mình dựng bot và thử kỹ trước khi giao.</p>
-        </li>
-        <li>
-          <div class="step-num" aria-hidden="true">4</div>
-          <h3 data-vi="Bàn giao" data-en="Hand over">Bàn giao</h3>
-          <p data-vi="Mình hướng dẫn bạn dùng, và theo dõi 1-2 tuần đầu để sửa." data-en="I show you how to use it and watch it for the first 1-2 weeks.">Mình hướng dẫn bạn dùng, và theo dõi 1-2 tuần đầu để sửa.</p>
-        </li>
+      <ol class="steps" id="steps" style="list-style:none;margin:0;padding:0">
+        <li class="step" style="--i:0"><span class="bar-line"></span><span class="num">01</span>
+          <h3 data-en="You talk, I listen">Bạn kể, mình nghe</h3>
+          <p data-en="We chat for 15-20 minutes so I learn what your customers ask and how you want the bot to sound.">Mình trò chuyện với bạn 15-20 phút để biết khách hay hỏi gì và bạn muốn bot nói chuyện ra sao.</p></li>
+        <li class="step" style="--i:1"><span class="bar-line"></span><span class="num">02</span>
+          <h3 data-en="I draft, you approve">Mình soạn, bạn duyệt</h3>
+          <p data-en="I write the answers. You read, edit and give the go-ahead before I build anything.">Mình viết sẵn các câu trả lời. Bạn đọc, sửa, rồi gật đầu thì mình mới làm tiếp.</p></li>
+        <li class="step" style="--i:2"><span class="bar-line"></span><span class="num">03</span>
+          <h3 data-en="Build, test, hand over">Dựng, thử và bàn giao</h3>
+          <p data-en="I build the bot, test it, and show you how to use it. For the first 1-2 weeks I keep watching and tweak it where needed.">Mình dựng bot, thử kỹ rồi hướng dẫn bạn dùng. 1-2 tuần đầu mình theo dõi và chỉnh thêm nếu cần.</p></li>
       </ol>
     </div>
   </section>
 
-  <section class="band band-white" id="pilot">
-    <div class="wrap">
-      <div class="first">
-        <div>
-          <h2 data-vi="Đang mở 3 suất làm thử" data-en="3 trial spots open">Đang mở 3 suất làm thử</h2>
-          <p data-vi="Mình là Alexis, người đứng sau Mochi Desk. Mình làm việc được bằng cả tiếng Anh lẫn tiếng Việt. Hiện có 3 suất làm thử với chi phí tượng trưng, đổi lại là góp ý thật và quyền dùng kết quả làm ví dụ."
-             data-en="I'm Alexis, the person behind Mochi Desk. I work in both English and Vietnamese. There are 3 trial spots open at a token price, in exchange for honest feedback and permission to use the results as examples.">Mình là Alexis, người đứng sau Mochi Desk. Mình làm việc được bằng cả tiếng Anh lẫn tiếng Việt. Hiện có 3 suất làm thử với chi phí tượng trưng, đổi lại là góp ý thật và quyền dùng kết quả làm ví dụ.</p>
+  <div class="wrap">
+    <section class="pilot" id="pilot">
+      <h2 data-en="Three trial spots are open">Đang mở 3 suất làm thử</h2>
+      <p data-en="I'm Alexis, the person behind Mochi Desk, and I work in both English and Vietnamese. The first three spots come at a token price, in exchange for honest feedback and permission to use the results as examples.">Mình là Alexis, người đứng sau Mochi Desk, làm việc được bằng cả tiếng Anh lẫn tiếng Việt. Ba suất đầu tiên có chi phí tượng trưng, đổi lại mình xin góp ý thật và được dùng kết quả làm ví dụ.</p>
+      <a class="btn" href="#contact"><span data-en="Apply for a trial">Đăng ký làm thử</span><span class="go-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+      <p class="fine" data-en="Just a short form, and I'll reply soon.">Chỉ cần điền một form ngắn, mình sẽ trả lời sớm.</p>
+    </section>
+  </div>
+
+  <section class="sec" id="faq">
+    <div class="wrap faq-grid">
+      <div class="head">
+        <h2 data-en="Common questions">Câu hỏi thường gặp</h2>
+        <p data-en="What business owners usually ask before getting started.">Mấy điều chủ shop hay hỏi trước khi bắt đầu.</p>
+      </div>
+      <div>
+        <div class="qa">
+          <h3><button type="button" id="q1" aria-expanded="false" aria-controls="a1"><span data-en="How long does the bot take to build?">Làm xong bot mất bao lâu?</span><span class="pm" aria-hidden="true"></span></button></h3>
+          <div class="panel" id="a1" role="region" aria-labelledby="q1"><div><p data-en="Usually 3-5 days, counted from when you approve the answers.">Thường khoảng 3-5 ngày, tính từ lúc bạn duyệt xong các câu trả lời.</p></div></div>
         </div>
-        <a class="btn btn-primary" href="#contact" data-vi="Đăng ký làm thử" data-en="Apply for a pilot">Đăng ký làm thử</a>
+        <div class="qa">
+          <h3><button type="button" id="q2" aria-expanded="false" aria-controls="a2"><span data-en="Do I need to share my Facebook password?">Mình có phải đưa mật khẩu Facebook không?</span><span class="pm" aria-hidden="true"></span></button></h3>
+          <div class="panel" id="a2" role="region" aria-labelledby="q2"><div><p data-en="No. You add me to your Page with limited access, and you can remove me at any time.">Không cần. Bạn chỉ cần thêm mình vào Page với quyền vừa đủ, và gỡ ra lúc nào cũng được.</p></div></div>
+        </div>
+        <div class="qa">
+          <h3><button type="button" id="q3" aria-expanded="false" aria-controls="a3"><span data-en="Where is customer information stored?">Thông tin khách lưu ở đâu?</span><span class="pm" aria-hidden="true"></span></button></h3>
+          <div class="panel" id="a3" role="region" aria-labelledby="q3"><div><p data-en="In your own Google Sheet. I keep no copy.">Trong bảng tính Google của chính bạn. Mình không giữ bản sao nào.</p></div></div>
+        </div>
+        <div class="qa">
+          <h3><button type="button" id="q4" aria-expanded="false" aria-controls="a4"><span data-en="What if the bot can't answer?">Nếu bot không trả lời được thì sao?</span><span class="pm" aria-hidden="true"></span></button></h3>
+          <div class="panel" id="a4" role="region" aria-labelledby="q4"><div><p data-en="There is always a button to reach a person, so customers never get stuck.">Bot luôn có nút gặp nhân viên, nên khách không bao giờ bị kẹt.</p></div></div>
+        </div>
+        <div class="qa">
+          <h3><button type="button" id="q5" aria-expanded="false" aria-controls="a5"><span data-en="Do you work with customers outside Vietnam?">Bạn có làm cho khách ở nước ngoài không?</span><span class="pm" aria-hidden="true"></span></button></h3>
+          <div class="panel" id="a5" role="region" aria-labelledby="q5"><div><p data-en="Yes. Everything is done online, and I work in both English and Vietnamese.">Có. Mọi thứ làm online, và mình làm việc được cả bằng tiếng Anh lẫn tiếng Việt.</p></div></div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="band" id="faq">
-    <div class="wrap">
-      <h2 data-vi="Câu hỏi thường gặp" data-en="Common questions">Câu hỏi thường gặp</h2>
-      <p class="section-sub" data-vi="Những điều chủ shop hay hỏi trước khi bắt đầu." data-en="What business owners usually ask before starting.">Những điều chủ shop hay hỏi trước khi bắt đầu.</p>
-      <div class="faq">
-        <div class="qa">
-          <h3><button type="button" aria-expanded="false" aria-controls="a1" id="q1" data-vi="Mất bao lâu để có chatbot?" data-en="How long does a chatbot take?">Mất bao lâu để có chatbot?</button></h3>
-          <div class="panel" id="a1" role="region" aria-labelledby="q1"><div><p data-vi="Thường 3-5 ngày kể từ khi bạn duyệt xong bộ câu hỏi thường gặp." data-en="Usually 3-5 days after you approve the set of common questions.">Thường 3-5 ngày kể từ khi bạn duyệt xong bộ câu hỏi thường gặp.</p></div></div>
-        </div>
-        <div class="qa">
-          <h3><button type="button" aria-expanded="false" aria-controls="a2" id="q2" data-vi="Mình có phải đưa mật khẩu Facebook không?" data-en="Do I need to share my Facebook password?">Mình có phải đưa mật khẩu Facebook không?</button></h3>
-          <div class="panel" id="a2" role="region" aria-labelledby="q2"><div><p data-vi="Không. Bạn chỉ cần thêm mình vào Page với quyền vừa đủ, và có thể gỡ bất cứ lúc nào." data-en="No. You just add me to your Page with limited access, and you can remove me at any time.">Không. Bạn chỉ cần thêm mình vào Page với quyền vừa đủ, và có thể gỡ bất cứ lúc nào.</p></div></div>
-        </div>
-        <div class="qa">
-          <h3><button type="button" aria-expanded="false" aria-controls="a3" id="q3" data-vi="Dữ liệu khách hàng lưu ở đâu?" data-en="Where is customer data stored?">Dữ liệu khách hàng lưu ở đâu?</button></h3>
-          <div class="panel" id="a3" role="region" aria-labelledby="q3"><div><p data-vi="Trong bảng tính Google của chính bạn. Mình không giữ bản sao riêng." data-en="In a Google Sheet under your own account. I keep no separate copy.">Trong bảng tính Google của chính bạn. Mình không giữ bản sao riêng.</p></div></div>
-        </div>
-        <div class="qa">
-          <h3><button type="button" aria-expanded="false" aria-controls="a4" id="q4" data-vi="Bot không trả lời được thì sao?" data-en="What if the bot can't answer?">Bot không trả lời được thì sao?</button></h3>
-          <div class="panel" id="a4" role="region" aria-labelledby="q4"><div><p data-vi="Luôn có nút chuyển cho nhân viên, nên khách không bao giờ bị kẹt." data-en="There is always a button to hand over to a person, so customers never get stuck.">Luôn có nút chuyển cho nhân viên, nên khách không bao giờ bị kẹt.</p></div></div>
-        </div>
-        <div class="qa">
-          <h3><button type="button" aria-expanded="false" aria-controls="a5" id="q5" data-vi="Bạn có làm việc với khách ở nước ngoài không?" data-en="Do you work with customers outside Vietnam?">Bạn có làm việc với khách ở nước ngoài không?</button></h3>
-          <div class="panel" id="a5" role="region" aria-labelledby="q5"><div><p data-vi="Có. Mọi thứ làm online, và mình làm việc được bằng cả tiếng Anh lẫn tiếng Việt." data-en="Yes. Everything is done online, and I work in both English and Vietnamese.">Có. Mọi thứ làm online, và mình làm việc được bằng cả tiếng Anh lẫn tiếng Việt.</p></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="band band-ink" id="contact">
+  <section class="sec" id="contact" style="padding-top:0">
     <div class="wrap contact-grid">
       <div>
-        <h2 data-vi="Liên hệ" data-en="Contact">Liên hệ</h2>
-        <p class="section-sub" data-vi="Để lại thông tin, mình sẽ phản hồi sớm." data-en="Leave your details and I'll reply soon.">Để lại thông tin, mình sẽ phản hồi sớm.</p>
+        <div class="head">
+          <h2 data-en="Say hello">Nhắn mình nhé</h2>
+          <p data-en="Leave your details and I'll reply soon.">Để lại thông tin, mình sẽ trả lời sớm.</p>
+        </div>
+        <p class="reach" data-en="Or reach me directly:">Hoặc nhắn thẳng qua:</p>
         <ul class="contact-icons" id="contactList"></ul>
       </div>
       <form class="form-card" id="leadForm" novalidate>
         <div class="field">
-          <label for="f-name" data-vi="Họ tên" data-en="Name">Họ tên</label>
+          <label for="f-name" data-en="Your name">Tên của bạn</label>
           <input id="f-name" name="name" type="text" autocomplete="name" required>
         </div>
         <div class="field">
-          <label for="f-phone" data-vi="Email hoặc số điện thoại" data-en="Email or phone number">Email hoặc số điện thoại</label>
+          <label for="f-phone" data-en="Email or phone number">Email hoặc số điện thoại</label>
           <input id="f-phone" name="phone" type="text" autocomplete="off" required>
         </div>
         <div class="field">
-          <label for="f-msg" data-vi="Bạn cần hỗ trợ gì? (không bắt buộc)" data-en="How can I help? (optional)">Bạn cần hỗ trợ gì? (không bắt buộc)</label>
+          <label for="f-msg" data-en="What do you need? (optional)">Bạn đang cần gì? (không bắt buộc)</label>
           <textarea id="f-msg" name="message"></textarea>
         </div>
         <div class="hp" aria-hidden="true"><label>Website<input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
         <input type="hidden" name="source" value="website">
-        <button class="btn btn-primary" type="submit" id="submitBtn" data-vi="Gửi" data-en="Send">Gửi</button>
+        <button class="btn" type="submit" id="submitBtn"><span id="submitLabel" data-en="Send">Gửi</span><span class="go-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></button>
         <p class="status" id="status" role="status" aria-live="polite"></p>
       </form>
     </div>
   </section>
 </main>
 
-<footer class="site-footer">
-  <div class="wrap">&copy; <span id="yr"></span> Mochi Desk</div>
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-mark"><b>Mochi</b> Desk<span class="us">_</span></div>
+    <div class="foot-row">
+      <span data-en="Chatbots for businesses">Chatbot cho doanh nghiệp</span>
+      <span>&copy; <span id="yr"></span> Mochi Desk</span>
+      <a class="link-quiet" href="#top" data-en="Back to top">Lên đầu trang</a>
+    </div>
+  </div>
 </footer>
 
 <script>
 (function () {
   'use strict';
+
+  var root = document.documentElement;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ====== CHỈNH Ở ĐÂY ======
      Để trống thì mục đó tự ẩn. Chỉ điền phần cần thiết:
@@ -366,16 +474,16 @@ h2{margin:0 0 12px;font-size:clamp(1.75rem,3.6vw,2.75rem);font-weight:800;line-h
      LINKEDIN: phần cuối đường link LinkedIn (phần sau /in/) */
   var CONFIG = {
     SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzMhPGmuswDx4Gdq1u7d1DOB9Xy0XF7C8sdFUt-kGcLsXXap3rGprkv74BnWrn8GFKB/exec',
-    WHATSAPP: '84898200106',
-    INSTAGRAM: 'qyw00u',
-    MESSENGER: 'alex010607',
+    WHATSAPP: '',
+    INSTAGRAM: '',
+    MESSENGER: '',
     EMAIL: 'alexis.ngocnguyen@gmail.com',
     LINKEDIN: 'bảo-ngọc-nguyễn-24826839b',
     ZALO: '0898200106'
   };
   /* ========================= */
 
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* ---------- Language ---------- */
   var lang = 'vi';
   try {
     var saved = localStorage.getItem('lang');
@@ -387,34 +495,39 @@ h2{margin:0 0 12px;font-size:clamp(1.75rem,3.6vw,2.75rem);font-weight:800;line-h
     vi: {
       title: 'Mochi Desk | Chatbot và trang web cho doanh nghiệp',
       sending: 'Đang gửi…',
-      sent: 'Đã gửi. Mình sẽ liên hệ với bạn sớm.',
-      fail: 'Chưa gửi được. Bạn thử lại hoặc gửi email cho mình nhé.',
-      notReady: 'Form chưa được kết nối. Bạn gửi email giúp mình nhé.',
-      missing: 'Bạn điền họ tên và cách liên hệ (email hoặc số điện thoại) giúp mình nhé.',
-      replay: 'Chạy lại demo'
+      sent: 'Đã nhận! Mình sẽ liên hệ với bạn sớm.',
+      fail: 'Chưa gửi được. Bạn thử lại hoặc nhắn mình qua email nhé.',
+      notReady: 'Form chưa kết nối xong. Bạn gửi email cho mình nhé.',
+      missing: 'Bạn điền tên và cách liên hệ (email hoặc số điện thoại) giúp mình nhé.',
+      replay: 'Xem lại từ đầu'
     },
     en: {
       title: 'Mochi Desk | Chatbots and websites for businesses',
       sending: 'Sending…',
-      sent: 'Sent. I will get back to you soon.',
+      sent: 'Received! I will get back to you soon.',
       fail: 'Could not send. Please try again or email me.',
       notReady: 'The form is not connected yet. Please send me an email instead.',
       missing: 'Please fill in your name and an email or phone number.',
-      replay: 'Replay demo'
+      replay: 'Replay'
     }
+  };
+
+  var PHRASES = {
+    vi: ['Giá bao nhiêu vậy bạn?', 'Mấy giờ quán mở cửa ạ?', 'Còn size M không shop?', 'Ship về tỉnh được không?'],
+    en: ['How much is this?', 'What time do you open?', 'Is size M still in stock?', 'Do you ship abroad?']
   };
 
   var DEMO = {
     vi: {
       shop: 'Little Bean Café',
       tag: 'Bản demo',
-      greet: 'Chào bạn! Mình là trợ lý của quán. Bạn cần mình giúp gì?',
-      handover: 'Bot tạm dừng. Nhân viên sẽ tiếp tục cuộc trò chuyện.',
+      greet: 'Chào bạn! Mình là trợ lý của quán. Bạn cần mình giúp gì nào?',
+      handover: 'Bot tạm nghỉ, nhân viên sẽ tiếp tục trò chuyện với bạn.',
       opts: [
-        { id: 'menu', label: 'Xem menu và giá', reply: 'Menu hôm nay:\nFlat white: 55.000đ\nMatcha latte: 65.000đ\nBánh croissant: 45.000đ' },
-        { id: 'hours', label: 'Giờ mở cửa và địa chỉ', reply: 'Quán mở từ 7:00 đến 18:00 mỗi ngày.\nĐịa chỉ: 12 Đường Mẫu.' },
-        { id: 'order', label: 'Đặt món', reply: 'Bạn cho mình biết món và số lượng nhé, ví dụ "2 flat white". Sau đó mình ghi lại tên và cách liên hệ để quán xác nhận đơn.' },
-        { id: 'human', label: 'Chat với nhân viên', reply: 'Mình chuyển cuộc trò chuyện cho nhân viên nhé. Bạn sẽ được trả lời trong ít phút.' }
+        { id: 'menu', label: 'Xem menu', reply: 'Menu hôm nay nè:\nFlat white: 55.000đ\nMatcha latte: 65.000đ\nBánh croissant: 45.000đ' },
+        { id: 'hours', label: 'Giờ mở cửa & địa chỉ', reply: 'Quán mở cửa từ 7:00 đến 18:00 mỗi ngày.\nĐịa chỉ: 12 Đường Mẫu.' },
+        { id: 'order', label: 'Đặt món', reply: 'Bạn muốn uống gì và mấy ly nhỉ? Ví dụ: "2 flat white". Xong mình xin tên và cách liên hệ để quán xác nhận đơn nhé.' },
+        { id: 'human', label: 'Gặp nhân viên', reply: 'Mình chuyển bạn cho nhân viên nhé. Sẽ có người trả lời bạn trong ít phút.' }
       ]
     },
     en: {
@@ -423,30 +536,129 @@ h2{margin:0 0 12px;font-size:clamp(1.75rem,3.6vw,2.75rem);font-weight:800;line-h
       greet: 'Hi! I\'m the café\'s assistant. How can I help?',
       handover: 'Bot paused. A team member will continue the chat.',
       opts: [
-        { id: 'menu', label: 'See menu and prices', reply: 'Today\'s menu:\nFlat white: $4.50\nMatcha latte: $5.00\nButter croissant: $3.50' },
-        { id: 'hours', label: 'Opening hours and address', reply: 'We\'re open 7:00 to 18:00 every day.\nAddress: 12 Sample Street.' },
-        { id: 'order', label: 'Place an order', reply: 'Tell me the drink and quantity, for example "2 flat whites". Then I\'ll take your name and contact details so the café can confirm.' },
+        { id: 'menu', label: 'See the menu', reply: 'Today\'s menu:\nFlat white: $4.50\nMatcha latte: $5.00\nButter croissant: $3.50' },
+        { id: 'hours', label: 'Opening hours & address', reply: 'We\'re open 7:00 to 18:00 every day.\nAddress: 12 Sample Street.' },
+        { id: 'order', label: 'Place an order', reply: 'What would you like, and how many? For example: "2 flat whites". Then I\'ll take your name and contact details so the café can confirm.' },
         { id: 'human', label: 'Talk to a person', reply: 'I\'ll hand this chat over to a team member. You\'ll get a reply in a few minutes.' }
       ]
     }
   };
 
-  var log = document.getElementById('chatLog');
-  var chips = document.getElementById('chips');
+  /* ---------- Helpers ---------- */
+  function $(sel) { return document.querySelector(sel); }
+  function $$(sel) { return Array.prototype.slice.call(document.querySelectorAll(sel)); }
+  function wait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+  function sleep(ms) { return wait(reduce ? 0 : ms); }
+
+  var AV_USER = '<svg viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="18" fill="#FFC6D4"/><circle cx="18" cy="14" r="5.2" fill="#1B1618"/><path d="M7.5 30c1.6-6 5.8-8.6 10.5-8.6S27 24 28.5 30z" fill="#1B1618"/></svg>';
+  var AV_BOT = '<svg viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="18" fill="#1B1618"/><circle cx="12.6" cy="16" r="2" fill="#CDF55A"/><circle cx="23.4" cy="16" r="2" fill="#CDF55A"/><path d="M12 22c3.4 3.2 8.6 3.2 12 0" fill="none" stroke="#CDF55A" stroke-width="2" stroke-linecap="round"/></svg>';
+
+  /* Split a heading line into word spans so each word can animate in. */
+  function splitWords(el) {
+    var idx = 0;
+    function walk(src, dst) {
+      Array.prototype.forEach.call(src.childNodes, function (n) {
+        if (n.nodeType === 3) {
+          n.nodeValue.split(/(\s+)/).forEach(function (part) {
+            if (!part) return;
+            if (/^\s+$/.test(part)) {
+              dst.appendChild(document.createTextNode(' '));
+            } else {
+              var s = document.createElement('span');
+              s.className = 'w';
+              s.style.setProperty('--i', idx++);
+              s.textContent = part;
+              dst.appendChild(s);
+            }
+          });
+        } else if (n.nodeType === 1) {
+          var c = n.cloneNode(false);
+          walk(n, c);
+          dst.appendChild(c);
+        }
+      });
+    }
+    var frag = document.createDocumentFragment();
+    walk(el, frag);
+    el.textContent = '';
+    el.appendChild(frag);
+  }
+
+  var h1 = $('h1');
+  function replayHeadline() {
+    h1.classList.add('reset');
+    h1.classList.remove('play');
+    void h1.offsetWidth;
+    h1.classList.remove('reset');
+    requestAnimationFrame(function () { h1.classList.add('play'); });
+  }
+
+  /* Remember the Vietnamese text that is written in the HTML. */
+  $$('[data-en]').forEach(function (el) { el.setAttribute('data-vi', el.innerHTML); });
+
+  function applyLang(initial) {
+    root.lang = lang;
+    document.title = TEXT[lang].title;
+    $$('[data-en]').forEach(function (el) {
+      el.innerHTML = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-vi');
+      if (el.classList.contains('split')) splitWords(el);
+    });
+    $$('.lang button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
+    });
+    $('#shopName').textContent = DEMO[lang].shop;
+    $('#demoTag').textContent = DEMO[lang].tag;
+    try { localStorage.setItem('lang', lang); } catch (e) {}
+    if (!initial) replayHeadline();
+    refreshPill();
+  }
+
+  /* ---------- Typing line in the hero ---------- */
+  var typedEl = $('#typed');
+  var typeRun = 0;
+  async function startTyping() {
+    var id = ++typeRun;
+    var list = PHRASES[lang];
+    typedEl.textContent = '';
+    if (reduce) { typedEl.textContent = list[0]; return; }
+    var i = 0;
+    while (id === typeRun) {
+      var s = list[i % list.length].normalize('NFC');
+      for (var k = 1; k <= s.length && id === typeRun; k++) {
+        typedEl.textContent = s.slice(0, k);
+        await wait(55 + Math.random() * 45);
+      }
+      await wait(1600);
+      for (var j = s.length; j >= 0 && id === typeRun; j--) {
+        typedEl.textContent = s.slice(0, j);
+        await wait(24);
+      }
+      await wait(350);
+      i++;
+    }
+  }
+
+  /* ---------- Chat demo ---------- */
+  var log = $('#chatLog');
+  var chips = $('#chips');
   var run = 0;
   var busy = false;
   var asked = new Set();
 
-  function sleep(ms) {
-    return new Promise(function (r) { setTimeout(r, reduce ? 0 : ms); });
+  function toBottom() {
+    log.scrollTo({ top: log.scrollHeight, behavior: reduce ? 'auto' : 'smooth' });
   }
-  function toBottom() { log.scrollTop = log.scrollHeight; }
-  function addMsg(text, cls) {
-    var d = document.createElement('div');
-    d.className = 'msg ' + cls;
-    d.textContent = text;
-    log.appendChild(d);
+  function addRow(cls, inner) {
+    var r = document.createElement('div');
+    r.className = 'row ' + cls;
+    r.innerHTML = inner;
+    log.appendChild(r);
     toBottom();
+    return r;
+  }
+  function addMsg(text, who) {
+    var r = addRow(who, (who === 'bot' ? AV_BOT : AV_USER) + '<div class="bub"></div>');
+    r.querySelector('.bub').textContent = text;
   }
   function addNote(text) {
     var d = document.createElement('div');
@@ -456,22 +668,18 @@ h2{margin:0 0 12px;font-size:clamp(1.75rem,3.6vw,2.75rem);font-weight:800;line-h
     toBottom();
   }
   async function botSay(text, id) {
-    var t = document.createElement('div');
-    t.className = 'typing';
-    t.setAttribute('aria-hidden', 'true');
-    t.innerHTML = '<span></span><span></span><span></span>';
-    log.appendChild(t);
-    toBottom();
-    await sleep(750);
+    var t = addRow('bot typing', AV_BOT + '<div class="bub" aria-hidden="true"><i></i><i></i><i></i></div>');
+    await sleep(800);
     t.remove();
     if (id !== run) return false;
     addMsg(text, 'bot');
     return true;
   }
-  function makeChip(label, onClick) {
+  function makeChip(label, i, onClick) {
     var b = document.createElement('button');
     b.type = 'button';
     b.className = 'chip';
+    b.style.setProperty('--i', i);
     b.textContent = label;
     b.addEventListener('click', onClick);
     chips.appendChild(b);
@@ -481,10 +689,10 @@ h2{margin:0 0 12px;font-size:clamp(1.75rem,3.6vw,2.75rem);font-weight:800;line-h
     var d = DEMO[lang];
     var left = d.opts.filter(function (o) { return !asked.has(o.id); });
     if (!left.length || asked.has('human')) {
-      makeChip(TEXT[lang].replay, play);
+      makeChip(TEXT[lang].replay, 0, play);
       return;
     }
-    left.forEach(function (o) { makeChip(o.label, function () { choose(o); }); });
+    left.forEach(function (o, i) { makeChip(o.label, i, function () { choose(o); }); });
   }
   async function choose(o) {
     if (busy) return;
@@ -493,7 +701,7 @@ h2{margin:0 0 12px;font-size:clamp(1.75rem,3.6vw,2.75rem);font-weight:800;line-h
     asked.add(o.id);
     chips.innerHTML = '';
     addMsg(o.label, 'user');
-    await sleep(250);
+    await sleep(300);
     if (id !== run) return;
     if (!(await botSay(o.reply, id))) return;
     if (o.id === 'human') addNote(DEMO[lang].handover);
@@ -507,44 +715,41 @@ h2{margin:0 0 12px;font-size:clamp(1.75rem,3.6vw,2.75rem);font-weight:800;line-h
     log.innerHTML = '';
     chips.innerHTML = '';
     var d = DEMO[lang];
-    document.getElementById('shopName').textContent = d.shop;
-    document.getElementById('demoTag').textContent = d.tag;
+    $('#shopName').textContent = d.shop;
+    $('#demoTag').textContent = d.tag;
     await sleep(500);
     if (id !== run) return;
     if (!(await botSay(d.greet, id))) return;
     await sleep(900);
     if (id !== run) return;
     addMsg(d.opts[0].label, 'user');
-    await sleep(300);
+    await sleep(350);
     if (id !== run) return;
     if (!(await botSay(d.opts[0].reply, id))) return;
     showChips();
     busy = false;
   }
 
-  /* Language */
-  function applyLang() {
-    document.documentElement.lang = lang;
-    document.title = TEXT[lang].title;
-    document.querySelectorAll('[data-vi]').forEach(function (el) {
-      el.textContent = el.getAttribute('data-' + lang);
-    });
-    document.querySelectorAll('.lang button').forEach(function (b) {
-      b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
-    });
-    try { localStorage.setItem('lang', lang); } catch (e) {}
+  var demoStarted = false;
+  function startDemo() {
+    if (demoStarted) return;
+    demoStarted = true;
+    play();
   }
-  document.querySelectorAll('.lang button').forEach(function (b) {
+
+  /* ---------- Language buttons ---------- */
+  $$('.lang button').forEach(function (b) {
     b.addEventListener('click', function () {
       if (b.dataset.lang === lang) return;
       lang = b.dataset.lang;
-      applyLang();
-      play();
+      applyLang(false);
+      startTyping();
+      if (demoStarted) play();
     });
   });
 
-  /* FAQ accordion */
-  document.querySelectorAll('.qa button').forEach(function (btn) {
+  /* ---------- FAQ ---------- */
+  $$('.qa button').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var open = btn.getAttribute('aria-expanded') === 'true';
       btn.setAttribute('aria-expanded', String(!open));
@@ -552,9 +757,103 @@ h2{margin:0 0 12px;font-size:clamp(1.75rem,3.6vw,2.75rem);font-weight:800;line-h
     });
   });
 
-  /* Contact links */
+  /* ---------- Header: shrink on scroll, sliding highlight ---------- */
+  var bar = $('#bar');
+  var pill = $('#pill');
+  var links = $$('#links a');
+  var sections = ['services', 'process', 'faq', 'contact'].map(function (id) { return document.getElementById(id); });
+  var activeIdx = -1;
+  var hoverIdx = -1;
+  var pillShown = false;
+
+  function movePill(i) {
+    if (i < 0 || !links[i] || !links[i].offsetWidth) { pill.style.opacity = 0; pillShown = false; return; }
+    var a = links[i];
+    if (!pillShown) {
+      pill.style.transition = 'none';
+      pill.style.width = a.offsetWidth + 'px';
+      pill.style.transform = 'translateX(' + a.offsetLeft + 'px)';
+      void pill.offsetWidth;
+      pill.style.transition = '';
+      pillShown = true;
+    } else {
+      pill.style.width = a.offsetWidth + 'px';
+      pill.style.transform = 'translateX(' + a.offsetLeft + 'px)';
+    }
+    pill.style.opacity = 1;
+  }
+  function refreshPill() { movePill(hoverIdx >= 0 ? hoverIdx : activeIdx); }
+
+  links.forEach(function (a, i) {
+    function on() { hoverIdx = i; refreshPill(); }
+    function off() { hoverIdx = -1; refreshPill(); }
+    a.addEventListener('mouseenter', on);
+    a.addEventListener('focus', on);
+    a.addEventListener('mouseleave', off);
+    a.addEventListener('blur', off);
+  });
+
+  function onScroll() {
+    bar.classList.toggle('scrolled', window.scrollY > 40);
+    var line = window.innerHeight * 0.4;
+    var cur = -1;
+    sections.forEach(function (s, i) { if (s && s.getBoundingClientRect().top <= line) cur = i; });
+    if (cur !== activeIdx) { activeIdx = cur; refreshPill(); }
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () { ticking = false; onScroll(); });
+  }, { passive: true });
+  window.addEventListener('resize', refreshPill);
+
+  /* ---------- One-time reveals (steps line, demo start) ---------- */
+  if ('IntersectionObserver' in window) {
+    var once = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        if (e.target.id === 'steps') e.target.classList.add('in');
+        if (e.target.id === 'win') startDemo();
+        once.unobserve(e.target);
+      });
+    }, { threshold: 0.3 });
+    once.observe($('#steps'));
+    once.observe($('#win'));
+  } else {
+    $('#steps').classList.add('in');
+    startDemo();
+  }
+
+  /* ---------- Pointer: card glow and soft background parallax ---------- */
+  document.addEventListener('pointermove', function (e) {
+    var c = e.target.closest && e.target.closest('.card');
+    if (!c) return;
+    var r = c.getBoundingClientRect();
+    c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  });
+
+  if (!reduce && window.matchMedia('(pointer: fine)').matches) {
+    var bg = $('.bg');
+    var tx = 0, ty = 0, cx = 0, cy = 0, raf = 0;
+    var tick = function () {
+      cx += (tx - cx) * 0.06;
+      cy += (ty - cy) * 0.06;
+      bg.style.setProperty('--px', (cx * 70).toFixed(1) + 'px');
+      bg.style.setProperty('--py', (cy * 70).toFixed(1) + 'px');
+      raf = (Math.abs(tx - cx) > 0.001 || Math.abs(ty - cy) > 0.001) ? requestAnimationFrame(tick) : 0;
+    };
+    window.addEventListener('pointermove', function (e) {
+      tx = e.clientX / window.innerWidth - 0.5;
+      ty = e.clientY / window.innerHeight - 0.5;
+      if (!raf) raf = requestAnimationFrame(tick);
+    }, { passive: true });
+  }
+
+  /* ---------- Contact icons ---------- */
   (function renderContacts() {
-    var list = document.getElementById('contactList');
+    var list = $('#contactList');
     var ICONS = {
       Zalo: '<svg viewBox="0 0 24 24" fill="#0068FF" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" style="width:36px;height:36px"><path d="M12.49 10.2722v-.4496h1.3467v6.3218h-.7704a.576.576 0 01-.5763-.5729l-.0006.0005a3.273 3.273 0 01-1.9372.6321c-1.8138 0-3.2844-1.4697-3.2844-3.2823 0-1.8125 1.4706-3.2822 3.2844-3.2822a3.273 3.273 0 011.9372.6321l.0006.0005zM6.9188 7.7896v.205c0 .3823-.051.6944-.2995 1.0605l-.03.0343c-.0542.0615-.1815.206-.2421.2843L2.024 14.8h4.8948v.7682a.5764.5764 0 01-.5767.5761H0v-.3622c0-.4436.1102-.6414.2495-.8476L4.8582 9.23H.1922V7.7896h6.7266zm8.5513 8.3548a.4805.4805 0 01-.4803-.4798v-7.875h1.4416v8.3548H15.47zM20.6934 9.6C22.52 9.6 24 11.0807 24 12.9044c0 1.8252-1.4801 3.306-3.3066 3.306-1.8264 0-3.3066-1.4808-3.3066-3.306 0-1.8237 1.4802-3.3044 3.3066-3.3044zm-10.1412 5.253c1.0675 0 1.9324-.8645 1.9324-1.9312 0-1.065-.865-1.9295-1.9324-1.9295s-1.9324.8644-1.9324 1.9295c0 1.0667.865 1.9312 1.9324 1.9312zm10.1412-.0033c1.0737 0 1.945-.8707 1.945-1.9453 0-1.073-.8713-1.9436-1.945-1.9436-1.0753 0-1.945.8706-1.945 1.9436 0 1.0746.8697 1.9453 1.945 1.9453z"/></svg>',
       WhatsApp: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path fill="currentColor" d="M9.2 8c.3 3.3 2.6 5.6 5.9 5.9l1.3-1.3-1.8-1.1-.8.7c-1-.4-1.8-1.2-2.2-2.2l.7-.8-1.1-1.8z"/></svg>',
@@ -587,10 +886,11 @@ h2{margin:0 0 12px;font-size:clamp(1.75rem,3.6vw,2.75rem);font-weight:800;line-h
     });
   })();
 
-  /* Form */
-  var form = document.getElementById('leadForm');
-  var statusEl = document.getElementById('status');
-  var submitBtn = document.getElementById('submitBtn');
+  /* ---------- Contact form ---------- */
+  var form = $('#leadForm');
+  var statusEl = $('#status');
+  var submitBtn = $('#submitBtn');
+  var submitLabel = $('#submitLabel');
   function setStatus(text, kind) {
     statusEl.textContent = text;
     statusEl.className = 'status' + (kind ? ' ' + kind : '');
@@ -608,7 +908,7 @@ h2{margin:0 0 12px;font-size:clamp(1.75rem,3.6vw,2.75rem);font-weight:800;line-h
       return;
     }
     submitBtn.disabled = true;
-    submitBtn.textContent = TEXT[lang].sending;
+    submitLabel.textContent = TEXT[lang].sending;
     try {
       await fetch(CONFIG.SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: new URLSearchParams(new FormData(form)) });
       form.reset();
@@ -617,12 +917,19 @@ h2{margin:0 0 12px;font-size:clamp(1.75rem,3.6vw,2.75rem);font-weight:800;line-h
       setStatus(TEXT[lang].fail, 'error');
     }
     submitBtn.disabled = false;
-    submitBtn.textContent = submitBtn.getAttribute('data-' + lang);
+    submitLabel.textContent = lang === 'en' ? submitLabel.getAttribute('data-en') : submitLabel.getAttribute('data-vi');
   });
 
-  document.getElementById('yr').textContent = new Date().getFullYear();
-  applyLang();
-  play();
+  /* ---------- Start ---------- */
+  $('#yr').textContent = new Date().getFullYear();
+  applyLang(true);
+  startTyping();
+  onScroll();
+  setTimeout(function () {
+    root.classList.add('go');
+    h1.classList.add('play');
+  }, 160);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(refreshPill);
 })();
 </script>
 </body>
