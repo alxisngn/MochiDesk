@@ -561,6 +561,10 @@ button[aria-expanded="true"] .pm::after{transform:translate(-50%,-50%) rotate(0)
     var saved = localStorage.getItem('lang');
     if (saved === 'vi' || saved === 'en') lang = saved;
     else if (!(navigator.language || 'vi').toLowerCase().startsWith('vi')) lang = 'en';
+    } catch (e) {}
+  try {
+    var q = new URLSearchParams(location.search).get('lang');
+    if (q === 'vi' || q === 'en') lang = q;
   } catch (e) {}
 
   var TEXT = {
