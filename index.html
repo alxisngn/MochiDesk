@@ -244,7 +244,26 @@ button[aria-expanded="true"] .pm::after{transform:translate(-50%,-50%) rotate(0)
   .bub{max-width:80%}
   .btn.sm{padding-left:14px}
 }
-
+/* ---------- Pricing ---------- */
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
+.plan{display:flex;flex-direction:column}
+.plan h3{font-size:1.25rem}
+.plan .for{margin-top:8px;color:var(--muted);font-size:.95rem;min-height:2.9em}
+.price{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 8px;margin:22px 0 4px;font-size:clamp(2rem,3.4vw,2.6rem);font-weight:500;letter-spacing:-.03em;line-height:1}
+.price small{font-size:.9rem;font-weight:400;letter-spacing:0;color:var(--muted)}
+.feat{display:grid;gap:12px;margin:24px 0 0;padding:24px 0 0;border-top:1px solid var(--line);list-style:none}
+.feat li{position:relative;padding-left:28px;font-size:.97rem;line-height:1.45}
+.feat li::before{content:"";position:absolute;left:0;top:.22em;width:16px;height:16px;border-radius:50%;background:var(--matcha) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m4.5 8.3 2.3 2.3 4.7-4.9' fill='none' stroke='%231B1618' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat}
+.plan .btn{justify-content:space-between;margin-top:auto}
+.plan .feat{margin-bottom:28px}
+.btn.line{background:transparent;box-shadow:inset 0 0 0 1px var(--line)}
+.plan.hot{background:var(--ink);color:#fff;border-color:var(--ink)}
+.plan.hot .for,.plan.hot .price small{color:rgba(255,255,255,.65)}
+.plan.hot .feat{border-top-color:rgba(255,255,255,.18)}
+.plan.hot .feat li{color:rgba(255,255,255,.92)}
+.plan .tagline{position:absolute;top:22px;right:22px;margin:0;padding:5px 12px;border-radius:999px;background:var(--rose);color:var(--ink);font-size:.8rem;font-weight:600}
+.price-note{margin-top:28px;color:var(--muted);font-size:.95rem;max-width:44rem}
+@media (max-width:900px){.plans{grid-template-columns:minmax(0,1fr)}.plan .for{min-height:0}}
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
@@ -271,6 +290,7 @@ button[aria-expanded="true"] .pm::after{transform:translate(-50%,-50%) rotate(0)
     <span class="pill" id="pill" aria-hidden="true"></span>
     <a href="#services" data-en="Services">Dịch vụ</a>
     <a href="#process" data-en="How it works">Cách làm</a>
+    <a href="#pricing" data-en="Pricing">Bảng giá</a>
     <a href="#faq" data-en="FAQ">Câu hỏi</a>
     <a href="#contact" data-en="Contact">Liên hệ</a>
   </nav>
@@ -381,7 +401,59 @@ button[aria-expanded="true"] .pm::after{transform:translate(-50%,-50%) rotate(0)
       <p class="fine" data-en="Just a short form, and I'll reply soon.">Chỉ cần điền biểu mẫu ngắn, Mochi Desk sẽ phản hồi sớm nhất.</p>
     </section>
   </div>
-
+<section class="sec" id="pricing" style="padding-top:0">
+    <div class="wrap">
+      <div class="head">
+        <h2 data-en="Pricing">Bảng giá</h2>
+        <p data-en="Clear packages, one-time fees. The first three spots are free.">Gói rõ ràng, thanh toán một lần. 3 suất đầu tiên được triển khai miễn phí.</p>
+      </div>
+      <div class="plans">
+        <article class="card plan">
+          
+          <h3 data-en="Starter">Khởi đầu</h3>
+          <p class="for" data-en="For businesses trying a chatbot for the first time.">Dành cho doanh nghiệp mới bắt đầu dùng chatbot.</p>
+          <div class="price"><span data-en="$60">1.500.000đ</span><small data-en="one-time">một lần</small></div>
+          <ul class="feat">
+            <li data-en="1 channel: Messenger or Instagram">1 kênh: Messenger hoặc Instagram</li>
+            <li data-en="Up to 10 common questions">Tối đa 10 câu hỏi thường gặp</li>
+            <li data-en="Button to reach a person">Nút chuyển sang nhân viên</li>
+            <li data-en="7 days of support after launch">Hỗ trợ chỉnh sửa trong 7 ngày</li>
+          </ul>
+          <a class="btn line" href="#contact"><span data-en="Choose this plan">Chọn gói này</span><span class="go-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+        </article>
+        <article class="card plan hot">
+          <span class="tagline" data-en="Most popular">Được chọn nhiều nhất</span>
+          <h3 data-en="Standard">Tiêu chuẩn</h3>
+          <p class="for" data-en="For shops and cafés that get messages every day.">Phù hợp với shop và quán đã có khách nhắn mỗi ngày.</p>
+          <div class="price"><span data-en="$140">3.500.000đ</span><small data-en="one-time">một lần</small></div>
+          <ul class="feat">
+            <li data-en="2 channels: Messenger and Instagram">2 kênh: Messenger và Instagram</li>
+            <li data-en="Up to 30 common questions">Tối đa 30 câu hỏi thường gặp</li>
+            <li data-en="Orders and customer details logged to Google Sheets">Tự ghi đơn và thông tin khách vào Google Sheets</li>
+            <li data-en="Email alert for each new customer">Thông báo email khi có khách mới</li>
+            <li data-en="14 days of support after launch">Hỗ trợ chỉnh sửa trong 14 ngày</li>
+          </ul>
+          <a class="btn " href="#contact"><span data-en="Choose this plan">Chọn gói này</span><span class="go-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+        </article>
+        <article class="card plan">
+          
+          <h3 data-en="Complete">Trọn gói</h3>
+          <p class="for" data-en="Chatbot, website and automation built around your needs.">Chatbot cùng trang web và quy trình tự động theo nhu cầu.</p>
+          <div class="price"><span data-en="from $240">từ 6.000.000đ</span><small data-en="one-time">một lần</small></div>
+          <ul class="feat">
+            <li data-en="Everything in Standard">Toàn bộ gói Tiêu chuẩn</li>
+            <li data-en="Two-language website">Trang web song ngữ Việt - Anh</li>
+            <li data-en="Automatic weekly report by email">Báo cáo tự động gửi email hằng tuần</li>
+            <li data-en="Custom automation for your workflow">Quy trình tự động theo yêu cầu</li>
+            <li data-en="30 days of support after launch">Hỗ trợ chỉnh sửa trong 30 ngày</li>
+          </ul>
+          <a class="btn line" href="#contact"><span data-en="Get a quote">Nhận báo giá</span><span class="go-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+        </article>
+      </div>
+      <p class="price-note" data-en="Prices depend on the scope of work. Optional monthly maintenance (updates, monitoring) from 300,000đ / $12 a month. Send a message for an exact quote.">Giá thay đổi theo phạm vi công việc. Có thể thêm gói bảo trì hằng tháng (cập nhật nội dung, theo dõi hoạt động) từ 300.000đ / tháng. Liên hệ để nhận báo giá chính xác.</p>
+    </div>
+  </section>
+ 
   <section class="sec" id="faq">
     <div class="wrap faq-grid">
       <div class="head">
